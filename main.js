@@ -68,6 +68,9 @@ function containsPattern(combo, pattern) {
       min = parseInt(tokens[1].match(/\d/)[0], 10)
     }
     return containsSet(combo, setSize, min)
+  } else if (tokens[0].match("min")) {
+    var min = parseInt(tokens[0].match(/\d/)[0], 10)
+    return containsMin(combo, min)
   } else {
     return containsPatternArray(combo, numericArrayPattern(pattern))
   }
@@ -93,7 +96,7 @@ function containsPatternArray(combo, patternArray) {
 
 function containsRun(combo, targetRunSize, min) {
   return containsCompare(combo, targetRunSize, function(a, b) {
-    return b >= min && a == b + 1
+    return b >= min && a == (b + 1)
   });
 }
 
@@ -104,8 +107,8 @@ function containsSet(combo, targetSetSize, min) {
 }
 
 function containsCompare(combo, targetSize, comparison) {
-  var longest = 1
-  var current = 1
+  var longest = 0
+  var current = combo.length > 0 ? 1 : 0
   var sortedCombo = combo.sort()
   for (var m = 1; m < sortedCombo.length; m++) {
     if (comparison(sortedCombo[m], sortedCombo[m-1])) {
@@ -122,7 +125,7 @@ function containsCompare(combo, targetSize, comparison) {
 
 function containsMin(combo, minValue) {
   for (var m = 0; m < combo.length; m++) {
-    if (sortedCombo[m] >= minValue) {
+    if (combo[m] >= minValue) {
       return true
     }
   }
