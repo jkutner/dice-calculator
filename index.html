@@ -5,8 +5,11 @@
   <title>Dice Probability</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="main.js"></script>
+
   <script type="text/javascript">
   $(document).ready(function(){
+    $('.calculating').hide()
+
     $('.calcBtn').click(function () {
       numOfDice = $('.numOfDice').val()
       pattern = $('.pattern').val();
@@ -33,7 +36,18 @@
     It's also capable of finding runs. The syntax for this is "run(3)", where "3" can be any single digit integer.
     But don't mix "run" with anything else (like other digits or wildcards).
   </p>
-  <button type="button" class="calcBtn">Calculate</button>
+  <p>Examples:
+    <ul>
+      <li><pre>1 2 3         >> [1, 2, 3]</pre></li>
+      <li><pre>1 2 *         >> [1, 2, 1], [1, 2, 2], [1, 2, 3], [1, 2, 4], [1, 2, 5]</pre></li>
+      <li><pre>3 3 3         >> [3, 3, 3]</pre></li>
+      <li><pre>run(3)        >> [1, 2, 3], [2, 3, 4], [3, 4, 5]</pre></li>
+      <li><pre>set(3)        >> [1, 1, 1], [2, 2, 2], [3, 3, 3], ...</pre></li>
+      <li><pre>min(3)        >> [3], [4], [5]</pre></li>
+      <li><pre>run(3) min(3) >> [3, 4, 5]</pre></li>
+      <li><pre>set(3) min(4) >> [4, 4, 4], [5, 5, 5]</pre></li>
+    </ul>
+  <button type="button" class="calcBtn">Calculate</button><span class="calculating">Calculating...</span>
   <h3>All 6-Sided Dice</h3>
   <div style="margin:20px;font-size:10pt">
     <div> 1/2/3/4/5/B </div>

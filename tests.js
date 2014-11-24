@@ -30,12 +30,25 @@ QUnit.test( "containsPatternArray", function( assert ) {
 });
 
 QUnit.test( "containsRun", function( assert ) {
-  assert.ok(containsRun([1, 2, 3], 3));
-  assert.ok(containsRun([2, 1, 3], 2));
-  assert.ok(containsRun([2, 1, 3], 1));
+  assert.ok(containsRun([1, 2, 3], 3, 0));
+  assert.ok(containsRun([2, 1, 3], 2, 0));
+  assert.ok(containsRun([2, 1, 3], 1, 0));
+
+  assert.ok(containsRun([2, 4, 3], 3, 2));
 
   assert.equal(containsRun([1, 2, 3], 4), false);
   assert.equal(containsRun([1, 1, 1], 2), false);
+});
+
+QUnit.test( "containsSet", function( assert ) {
+  assert.ok(containsSet([1, 1, 1], 3, 0));
+  assert.ok(containsSet([2, 2, 4], 2, 0));
+  assert.ok(containsSet([2, 1, 3], 1, 0));
+
+  assert.ok(containsSet([2, 2, 2], 3, 2));
+
+  assert.equal(containsSet([1, 2, 3], 4), false);
+  assert.equal(containsSet([1, 1, 1], 2, 2), false);
 });
 
 QUnit.test( "getProbability", function( assert ) {
@@ -79,4 +92,16 @@ QUnit.test( "getProbability", function( assert ) {
   assert.ok(runThree5 < 1)
 
   assert.ok(runThree3 > oneTwoThree3)
+
+  var setThree5 = getProbability(5, "set(3)")
+  assert.ok(setThree5 > 0)
+  assert.ok(setThree5 < 1)
+
+  var setThreeMinTwo5 = getProbability(5, "set(3) min(2)")
+  assert.ok(setThreeMinTwo5 > 0)
+  assert.ok(setThreeMinTwo5 < setThree5)
+
+  var runThreeMinTwo5 = getProbability(5, "run(3) min(2)")
+  assert.ok(runThreeMinTwo5 > 0)
+  assert.ok(runThreeMinTwo5 < 1)
 });

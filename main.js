@@ -52,9 +52,22 @@ function nonBeerArray(combo) {
 }
 
 function containsPattern(combo, pattern) {
-  if (pattern.match("run")) {
-    var result = pattern.match(/\d/)
-    return containsRun(combo, parseInt(result[0], 10))
+  var tokens = pattern.split(" ")
+
+  if (tokens[0].match("run")) {
+    var runSize = parseInt(tokens[0].match(/\d/)[0], 10)
+    var min = 0
+    if (tokens.length > 1 && tokens[1].match("min")) {
+      min = parseInt(tokens[1].match(/\d/)[0], 10)
+    }
+    return containsRun(combo, runSize, min)
+  } else if (tokens[0].match("set")) {
+    var setSize = parseInt(tokens[0].match(/\d/)[0], 10)
+    var min = 0
+    if (tokens.length > 1 && tokens[1].match("min")) {
+      min = parseInt(tokens[1].match(/\d/)[0], 10)
+    }
+    return containsSet(combo, setSize, min)
   } else {
     return containsPatternArray(combo, numericArrayPattern(pattern))
   }
@@ -78,21 +91,42 @@ function containsPatternArray(combo, patternArray) {
   return found == patternArray.length
 }
 
-function containsRun(combo, targetRunSize) {
-  var longestRun = 1
-  var currentRun = 1
+function containsRun(combo, targetRunSize, min) {
+  return containsCompare(combo, targetRunSize, function(a, b) {
+    return b >= min && a == b + 1
+  });
+}
+
+function containsSet(combo, targetSetSize, min) {
+  return containsCompare(combo, targetSetSize, function(a, b) {
+    return a >= min && a == b
+  });
+}
+
+function containsCompare(combo, targetSize, comparison) {
+  var longest = 1
+  var current = 1
   var sortedCombo = combo.sort()
   for (var m = 1; m < sortedCombo.length; m++) {
-    if (sortedCombo[m] == (sortedCombo[m-1] + 1)) {
-      currentRun++
+    if (comparison(sortedCombo[m], sortedCombo[m-1])) {
+      current++
     } else {
-      longestRun = (longestRun > currentRun) ? longestRun : currentRun
-      currentRun = 1
+      longest = (longest > current) ? longest : current
+      current = 1
     }
   }
-  longestRun = (longestRun > currentRun) ? longestRun : currentRun
+  longest = (longest > current) ? longest : current
 
-  return longestRun >= targetRunSize
+  return longest >= targetSize
+}
+
+function containsMin(combo, minValue) {
+  for (var m = 0; m < combo.length; m++) {
+    if (sortedCombo[m] >= minValue) {
+      return true
+    }
+  }
+  return false
 }
 
 function numericArrayPattern(pattern) {
@@ -114,7 +148,13 @@ function getProbabilityWithDice(numOfDice, pattern, dice) {
       numerator++
     }
   }
-  return numerator / denominator
+
+  var p = numerator / denominator;
+
+  // Three independent roles
+  //return 1 - Math.pow((1 - p), 3)
+
+  return p
 }
 
 function getProbabilityWithMixedDice(numOfDice, pattern) {
