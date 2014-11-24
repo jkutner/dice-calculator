@@ -47,4 +47,10 @@ QUnit.test( "getProbability", function( assert ) {
   assert.ok(oneTwoStar3 < oneTwoStar5);
   assert.ok(oneTwoStar3 < star3);
   assert.ok(oneTwoStar5 < star5);
+
+  var fourFive3 = getProbability(3, "4 5")
+  var fourFive5 = getProbability(5, "4 5")
+
+  assert.ok(fourFive3 < fourFive5);
+  assert.ok(oneTwoStar5 < fourFive5);
 });
