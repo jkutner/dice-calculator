@@ -19,14 +19,23 @@ QUnit.test( "numericArrayPattern", function( assert ) {
   assert.deepEqual(numericArrayPattern("1 2 * 3"), [1, 2, "*", 3]);
 });
 
-QUnit.test( "containsPattern", function( assert ) {
-  assert.ok(containsPattern([1, 2, 3], [1, 2, 3]));
-  assert.ok(containsPattern([2, 1, 3], [1, 2, 3]));
-  assert.ok(containsPattern([1, 2, 3], [1, 2, "*"]));
-  assert.ok(containsPattern([1, 2, 3], [1, "*", "*"]));
+QUnit.test( "containsPatternArray", function( assert ) {
+  assert.ok(containsPatternArray([1, 2, 3], [1, 2, 3]));
+  assert.ok(containsPatternArray([2, 1, 3], [1, 2, 3]));
+  assert.ok(containsPatternArray([1, 2, 3], [1, 2, "*"]));
+  assert.ok(containsPatternArray([1, 2, 3], [1, "*", "*"]));
 
-  assert.equal(containsPattern([1, 2, 3], [1, 4, "*"]), false);
-  assert.equal(containsPattern([1, 2, 3], [1, 4, 3]), false);
+  assert.equal(containsPatternArray([1, 2, 3], [1, 4, "*"]), false);
+  assert.equal(containsPatternArray([1, 2, 3], [1, 4, 3]), false);
+});
+
+QUnit.test( "containsRun", function( assert ) {
+  assert.ok(containsRun([1, 2, 3], 3));
+  assert.ok(containsRun([2, 1, 3], 2));
+  assert.ok(containsRun([2, 1, 3], 1));
+
+  assert.equal(containsRun([1, 2, 3], 4), false);
+  assert.equal(containsRun([1, 1, 1], 2), false);
 });
 
 QUnit.test( "getProbability", function( assert ) {
@@ -56,8 +65,16 @@ QUnit.test( "getProbability", function( assert ) {
   assert.ok(fourFive3 < fourFive5);
   assert.ok(oneTwoStar5 < fourFive5);
 
-
   var oneTwoThree3 = getProbability(3, "1 2 3")
 
   assert.ok(oneTwoThree3 > 0)
+
+  var runThree3 = getProbability(3, "run(3)")
+  var runThree4 = getProbability(4, "run(3)")
+  var runThree5 = getProbability(5, "run(3)")
+
+  assert.ok(runThree3 > 0)
+  assert.ok(runThree3 < runThree4)
+  assert.ok(runThree4 < runThree5)
+  assert.ok(runThree5 < 1)
 });

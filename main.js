@@ -49,7 +49,16 @@ function nonBeerArray(combo) {
   return result
 }
 
-function containsPattern(combo, patternArray) {
+function containsPattern(combo, pattern) {
+  if (pattern.match("run")) {
+    var result = pattern.match(/\d/)
+    return containsRun(combo, parseInt(result[0], 10))
+  } else {
+    return containsPatternArray(combo, numericArrayPattern(pattern))
+  }
+}
+
+function containsPatternArray(combo, patternArray) {
   var found = 0
   if (combo.length >= patternArray.length) {
     for (var k = 0; k < patternArray.length; k++) {
@@ -67,6 +76,23 @@ function containsPattern(combo, patternArray) {
   return found == patternArray.length
 }
 
+function containsRun(combo, targetRunSize) {
+  var longestRun = 1
+  var currentRun = 1
+  var sortedCombo = combo.sort()
+  for (var m = 1; m < sortedCombo.length; m++) {
+    if (sortedCombo[m] == (sortedCombo[m-1] + 1)) {
+      currentRun++
+    } else {
+      longestRun = (longestRun > currentRun) ? longestRun : currentRun
+      currentRun = 1
+    }
+  }
+  longestRun = (longestRun > currentRun) ? longestRun : currentRun
+
+  return longestRun >= targetRunSize
+}
+
 function numericArrayPattern(pattern) {
   return pattern.split(" ").map(function(num) {
     if (num == "*") {
@@ -81,9 +107,8 @@ function getProbabilityWithDice(numOfDice, pattern, dice) {
   var combos = getAllCombos(numOfDice, dice)
   var denominator = combos.length
   var numerator = 0
-  var patternArray = numericArrayPattern(pattern)
   for (var i = 0; i < denominator; i++) {
-    if (containsPattern(nonBeerArray(combos[i]), patternArray)) {
+    if (containsPattern(nonBeerArray(combos[i]), pattern)) {
       numerator++
     }
   }
