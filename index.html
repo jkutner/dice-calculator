@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Dice Probability</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="main.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('.calcBtn').click(function () {
+      numOfDice = $('.numOfDice').val()
+      pattern = $('.pattern').val();
+      probability = getProbability(parseInt(numOfDice, 10), pattern)
+
+      $('.probability').html(probability)
+    });
+  });
+  </script>
+</head>
+<body>
+  <p>Die 1:
+    <select class="die1">
+      <option>1/2/3/4/5/B</option>
+    </select>
+  </p>
+  <p>Die 2:
+    <select class="die2">
+      <option>1/2/3/4/5/B</option>
+    </select>
+  </p>
+  <p>Die 3:
+    <select class="die3">
+      <option>1/2/3/4/5/B</option>
+    </select>
+  </p>
+  <p>Die 4:
+    <select class="die4">
+      <option>B/2/3/4/5/B</option>
+      <option>1/2/3/4/5/B/B/B</option>
+    </select>
+  </p>
+  <p>Die 5:
+    <select class="die5">
+      <option>B/B/3/4/5/B</option>
+      <option>1/2/3/4/5/B/B/B/B/B</option>
+    </select>
+  </p>
+  <p>Number of Dice:
+    <select class="numOfDice">
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </p>
+  <p>Pattern: <input type="text" class="pattern"/></p>
+  <p>
+    Pattern is a space delminited string of either digits, or wildcards. For example "1 2 *" or "3 3 3".
+  </p>
+  <button type="button" class="calcBtn">Calculate</button>
+  <p>
+    Probability: <div class="probability"></div>
+  </p>
+</body>
+</html>
