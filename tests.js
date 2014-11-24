@@ -21,6 +21,7 @@ QUnit.test( "numericArrayPattern", function( assert ) {
 
 QUnit.test( "containsPattern", function( assert ) {
   assert.ok(containsPattern([1, 2, 3], [1, 2, 3]));
+  assert.ok(containsPattern([2, 1, 3], [1, 2, 3]));
   assert.ok(containsPattern([1, 2, 3], [1, 2, "*"]));
   assert.ok(containsPattern([1, 2, 3], [1, "*", "*"]));
 
@@ -39,8 +40,8 @@ QUnit.test( "getProbability", function( assert ) {
   var one4 = getProbability(4, "1")
   var one5 = getProbability(5, "1")
 
-  assert.ok(one3 < one4);
-  assert.equal(one5, one4);
+  assert.equal(one3, one4);
+  assert.equal(one4, one5);
 
   var oneTwoStar3 = getProbability(3, "1 2 *")
   var oneTwoStar5 = getProbability(5, "1 2 *")
@@ -54,4 +55,9 @@ QUnit.test( "getProbability", function( assert ) {
 
   assert.ok(fourFive3 < fourFive5);
   assert.ok(oneTwoStar5 < fourFive5);
+
+
+  var oneTwoThree3 = getProbability(3, "1 2 3")
+
+  assert.ok(oneTwoThree3 > 0)
 });

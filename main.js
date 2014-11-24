@@ -10,11 +10,11 @@ function getSixSidedDice() {
 
 function getMixedDice() {
   return [
-  [ 1, 2, 3, 4, 5, 99],
-  [ 1, 2, 3, 4, 5, 99],
-  [ 1, 2, 3, 4, 5, 99],
-  [ 1, 2, 3, 4, 5, 99, 99, 99],
-  [ 1, 2, 3, 4, 5, 99, 99, 99, 99, 99]
+    [ 1, 2, 3, 4, 5, 99],
+    [ 1, 2, 3, 4, 5, 99],
+    [ 1, 2, 3, 4, 5, 99],
+    [ 1, 2, 3, 4, 5, 99, 99, 99],
+    [ 1, 2, 3, 4, 5, 99, 99, 99, 99, 99]
   ]
 }
 
@@ -29,13 +29,13 @@ function buildCombos(dieIndex, numOfDice, dice) {
   for (var i = 0; i < die.length; i++) {
     var thisCombo = [die[i]]
 
-    if (dieIndex < numOfDice-1) {
+    if (dieIndex < numOfDice - 1) {
       var extras = buildCombos(dieIndex+1, numOfDice, dice)
       for (var k = 0; k < extras.length; k++) {
         combos.push(thisCombo.concat(extras[k]))
       }
     } else {
-      combos.push([thisCombo])
+      combos.push(thisCombo)
     }
   }
   return combos;
@@ -59,7 +59,7 @@ function containsPattern(combo, patternArray) {
         combo.splice(pos, 1)
         found++
       } else if (elem == "*" && combo.length > 0) {
-        combo.splice(pos, 1)
+        combo.pop()
         found++
       }
     }
