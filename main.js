@@ -11,13 +11,13 @@ function getDie(i) {
 }
 
 function getAllCombos(numOfDice) {
-  return buildCombos(0, numOfDice)
+  return buildCombos(1, numOfDice)
 }
 
 function buildCombos(dieIndex, numOfDice) {
   var combos = []
 
-  var die = getDie(1);
+  var die = getDie(dieIndex);
   for (var i = 0; i < die.length; i++) {
     var thisCombo = [die[i]]
 

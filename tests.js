@@ -9,9 +9,9 @@ QUnit.test( "getDie", function( assert ) {
 });
 
 QUnit.test( "getAllCombos", function( assert ) {
-  assert.equal(getAllCombos(3).length, 1296);
-  assert.equal(getAllCombos(4).length, 7776);
-  assert.equal(getAllCombos(5).length, 46656);
+  assert.equal(getAllCombos(3).length, 216);
+  assert.equal(getAllCombos(4).length, 1296);
+  assert.equal(getAllCombos(5).length, 7776);
 });
 
 QUnit.test( "nonBeerArray", function( assert ) {
@@ -38,8 +38,15 @@ QUnit.test( "getProbability", function( assert ) {
   var star3 = getProbability(3, "*")
   var star5 = getProbability(5, "*")
 
-  assert.equal(star3, 0.9992283950617284);
-  assert.equal(star5, 0.9999785665294925);
+  assert.equal(star3, 0.9953703703703703);
+  assert.equal(star5, 0.9992283950617284);
+
+  var one3 = getProbability(3, "1")
+  var one4 = getProbability(4, "1")
+  var one5 = getProbability(5, "1")
+
+  assert.ok(one3 < one4);
+  assert.equal(one5, one4);
 
   var oneTwoStar3 = getProbability(3, "1 2 *")
   var oneTwoStar5 = getProbability(5, "1 2 *")
