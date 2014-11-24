@@ -2,16 +2,10 @@ QUnit.test( "hello test", function( assert ) {
   assert.ok( 1 == "1", "Passed!" );
 });
 
-QUnit.test( "getDie", function( assert ) {
-  assert.equal(getDie(3).length, 6);
-  assert.equal(getDie(4).length, 6);
-  assert.equal(getDie(5).length, 6);
-});
-
 QUnit.test( "getAllCombos", function( assert ) {
-  assert.equal(getAllCombos(3).length, 216);
-  assert.equal(getAllCombos(4).length, 1296);
-  assert.equal(getAllCombos(5).length, 7776);
+  assert.equal(getAllCombos(3, getSixSidedDice()).length, 216);
+  assert.equal(getAllCombos(4, getSixSidedDice()).length, 1296);
+  assert.equal(getAllCombos(5, getSixSidedDice()).length, 7776);
 });
 
 QUnit.test( "nonBeerArray", function( assert ) {

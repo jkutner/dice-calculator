@@ -1,28 +1,36 @@
-function getDie(i) {
-  var dice = [
+function getSixSidedDice() {
+  return [
     [ 1, 2, 3, 4, 5, 99],
     [ 1, 2, 3, 4, 5, 99],
     [ 1, 2, 3, 4, 5, 99],
     [ 99, 2, 3, 4, 5, 99],
     [ 99, 99, 3, 4, 5, 99]
   ]
-
-  return dice[i-1]
 }
 
-function getAllCombos(numOfDice) {
-  return buildCombos(1, numOfDice)
+function getMixedDice() {
+  return [
+  [ 1, 2, 3, 4, 5, 99],
+  [ 1, 2, 3, 4, 5, 99],
+  [ 1, 2, 3, 4, 5, 99],
+  [ 1, 2, 3, 4, 5, 99, 99, 99],
+  [ 1, 2, 3, 4, 5, 99, 99, 99, 99, 99]
+  ]
 }
 
-function buildCombos(dieIndex, numOfDice) {
+function getAllCombos(numOfDice, dice) {
+  return buildCombos(0, numOfDice, dice)
+}
+
+function buildCombos(dieIndex, numOfDice, dice) {
   var combos = []
 
-  var die = getDie(dieIndex);
+  var die = dice[dieIndex];
   for (var i = 0; i < die.length; i++) {
     var thisCombo = [die[i]]
 
-    if (dieIndex < numOfDice) {
-      var extras = buildCombos(dieIndex+1, numOfDice)
+    if (dieIndex < numOfDice-1) {
+      var extras = buildCombos(dieIndex+1, numOfDice, dice)
       for (var k = 0; k < extras.length; k++) {
         combos.push(thisCombo.concat(extras[k]))
       }
@@ -69,8 +77,8 @@ function numericArrayPattern(pattern) {
   });
 }
 
-function getProbability(numOfDice, pattern) {
-  var combos = getAllCombos(numOfDice)
+function getProbabilityWithDice(numOfDice, pattern, dice) {
+  var combos = getAllCombos(numOfDice, dice)
   var denominator = combos.length
   var numerator = 0
   var patternArray = numericArrayPattern(pattern)
@@ -80,4 +88,12 @@ function getProbability(numOfDice, pattern) {
     }
   }
   return numerator / denominator
+}
+
+function getProbabilityWithMixedDice(numOfDice, pattern) {
+  return getProbabilityWithDice(numOfDice, pattern, getMixedDice())
+}
+
+function getProbability(numOfDice, pattern) {
+  return getProbabilityWithDice(numOfDice, pattern, getSixSidedDice())
 }

@@ -10,55 +10,45 @@
     $('.calcBtn').click(function () {
       numOfDice = $('.numOfDice').val()
       pattern = $('.pattern').val();
-      probability = getProbability(parseInt(numOfDice, 10), pattern)
 
-      $('.probability').html(probability)
+      $('.probability-3dice6').html(getProbability(3, pattern))
+      $('.probability-4dice6').html(getProbability(4, pattern))
+      $('.probability-5dice6').html(getProbability(5, pattern))
+
+      $('.probability-3diceMixed').html(getProbabilityWithMixedDice(3, pattern))
+      $('.probability-4diceMixed').html(getProbabilityWithMixedDice(4, pattern))
+      $('.probability-5diceMixed').html(getProbabilityWithMixedDice(5, pattern))
     });
   });
   </script>
 </head>
 <body>
-  <!-- <p>Die 1:
-    <select class="die1">
-      <option>1/2/3/4/5/B</option>
-    </select>
-  </p>
-  <p>Die 2:
-    <select class="die2">
-      <option>1/2/3/4/5/B</option>
-    </select>
-  </p>
-  <p>Die 3:
-    <select class="die3">
-      <option>1/2/3/4/5/B</option>
-    </select>
-  </p>
-  <p>Die 4:
-    <select class="die4">
-      <option>B/2/3/4/5/B</option>
-      <option>1/2/3/4/5/B/B/B</option>
-    </select>
-  </p>
-  <p>Die 5:
-    <select class="die5">
-      <option>B/B/3/4/5/B</option>
-      <option>1/2/3/4/5/B/B/B/B/B</option>
-    </select>
-  </p> -->
-  <p>Number of Dice:
-    <select class="numOfDice">
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </p>
   <p>Pattern: <input type="text" class="pattern"/></p>
   <p>
     Pattern is a space delimited string of either digits, or wildcards. For example "1 2 *" or "3 3 3".
   </p>
   <button type="button" class="calcBtn">Calculate</button>
-  <p>
-    Probability: <div class="probability"></div>
-  </p>
+  <h3>6-Sided Dice</h3>
+  <div>
+    Probability (3 dice): <span class="probability-3dice6"></span>
+  </div>
+  <div>
+    Probability (4 dice): <span class="probability-4dice6"></span>
+  </div>
+  <div>
+    Probability (5 dice): <span class="probability-5dice6"></span>
+  </div>
+  <h3>Mixed Dice (6, 8 and 10 Sided)</h3>
+  <div>
+    Probability (3 dice): <span class="probability-3diceMixed"></span>
+  </div>
+  <div>
+    Probability (4 dice): <span class="probability-4diceMixed"></span>
+  </div>
+  <div>
+    Probability (5 dice): <span class="probability-5diceMixed"></span>
+  </div>
+  <div>
+  </div>
 </body>
 </html>
